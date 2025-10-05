@@ -9,8 +9,7 @@ router.post('/certificate', auth, controller.createCertificate);
 // Admin: list certificates
 router.get('/certificates', auth, controller.listCertificates);
 
-// Admin: preview next serial
+// Admin: generate and reserve next serial
 router.get('/next-serial', auth, controller.nextSerial);
-
 
 module.exports = router;

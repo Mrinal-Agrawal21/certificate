@@ -50,18 +50,11 @@ export default function Admin(){
 
   async function handleGenerateSerial(){
     try{
-      const res = await API.get('/admin/next-serial')
+      // Add timestamp to prevent caching
+      const timestamp = Date.now()
+      const res = await API.get(`/admin/next-serial?t=${timestamp}`)
       let s = res.data?.serial || ''
-      // Normalize any legacy 'C' prefix or dashed formats to 'SN' with no dashes
-      // Expected format: SN{year}{seq4}
-      const normalized = s
-        .replace(/^C-?/i, 'SN')
-        .replace(/-/g, '')
-      if (s !== normalized) {
-        // Helpful in dev to track mismatched backend responses/baseURL
-        try { console.warn('Normalized serial from', s, 'to', normalized); } catch {}
-      }
-      if (normalized) setSerial(normalized)
+      if (s) setSerial(s)
     }catch(err){
       setError(err.response?.data?.message || 'Unable to generate serial')
     }

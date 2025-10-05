@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api' });
 
+// TEMP: Debug which server the client is calling
+try { console.log('[DEBUG] API baseURL:', API.defaults.baseURL); } catch {}
+
 // Attach JWT if present
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
